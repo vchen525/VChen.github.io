@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Victoria Chen | Portfolio</title>
+    <style>
+        :root {
+            --bg-color: #faf9fb;      
+            --primary-lilac: #eaddff; 
+            --accent-pink: #f8e1e7;   
+            --text-dark: #000000;     
+            --transition-smooth: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- NAVIGATION BAR --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            z-index: 1000;
+            background: rgba(250, 249, 251, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+
+        nav ul { display: flex; list-style: none; gap: 30px; }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        nav a::after {
+            content: ''; position: absolute; width: 0; height: 2px;
+            bottom: -5px; left: 0; background-color: var(--primary-lilac);
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after { width: 100%; }
+
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(180deg, var(--accent-pink) 0%, var(--bg-color) 100%);
+            padding: 20px;
+        }
+
+        .profile-container {
+            width: 180px; height: 180px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 4px solid white;
+            animation: softAppear 1.5s forwards;
+        }
+
+        .profile-container img { width: 100%; height: 100%; object-fit: cover; }
+
+        h1 { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 700; margin-bottom: 0.2rem; }
+
+        .status-line {
+            font-size: 0.95rem; font-weight: 700; margin-bottom: 1.5rem;
+            letter-spacing: 1.5px; text-transform: uppercase; display: flex; gap: 15px;
+        }
+
+        .tagline { font-size: 1.2rem; max-width: 600px; font-style: italic; }
+
+        section {
+            max-width: 1000px; margin: 0 auto;
+            padding: 100px 25px 60px 25px;
+            opacity: 0; transform: translateY(30px);
+            transition: var(--transition-smooth);
+        }
+
+        section.reveal { opacity: 1; transform: translateY(0); }
+
+        h2 { font-size: 2.4rem; margin-bottom: 1.5rem; font-weight: 700; }
+
+        h2::after {
+            content: ''; display: block; width: 50px; height: 3px;
+            background: var(--primary-lilac); margin-top: 10px;
+        }
+
+        .centered-heading h2::after { margin: 10px auto 0 auto; }
+
+        /* --- SKILLS SECTION --- */
+        .skills-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 2rem;
+        }
+
+        .skill-category {
+            flex: 1;
+            min-width: 250px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #000;
+        }
+
+        .skill-category h4 {
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--primary-lilac);
+            display: inline-block;
+        }
+
+        .skill-category p { font-size: 0.95rem; }
+
+        /* --- CARDS & GRID --- */
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+            nav ul { gap: 10px; }
+            nav a { font-size: 0.65rem; }
+            .status-line { flex-direction: column; gap: 5px; align-items: center; }
+            .status-line span:nth-child(2) { display: none; }
+        }
+
+        .card {
+            background: white; padding: 2rem 1.5rem; border-radius: 12px;
+            border: 1px solid #000000; position: relative; overflow: hidden;
+            height: 310px; display: flex; flex-direction: column; transition: var(--transition-smooth);
+        }
+
+        .card h3 { font-size: 1.3rem; margin-bottom: 15px; flex-shrink: 0; }
+
+        .card-initial-text { transition: 0.4s ease; opacity: 1; font-size: 0.95rem; }
+
+        .card-hover-detail {
+            position: absolute; top: 75px; left: 1.5rem; right: 1rem; bottom: 1.5rem;
+            opacity: 0; transform: translateY(15px); transition: 0.4s ease;
+            font-size: 0.85rem; overflow-y: auto; padding-right: 10px;
+        }
+
+        .card-hover-detail::-webkit-scrollbar { width: 4px; }
+        .card-hover-detail::-webkit-scrollbar-thumb { background: var(--primary-lilac); border-radius: 10px; }
+
+        .card-hover-detail ul { list-style-type: square; padding-left: 15px; }
+        .card-hover-detail li { margin-bottom: 8px; }
+
+        .card:hover { box-shadow: 0 15px 40px rgba(0,0,0,0.1); border-color: var(--primary-lilac); }
+        .card:hover .card-initial-text { opacity: 0; transform: translateY(-10px); }
+        .card:hover .card-hover-detail { opacity: 1; transform: translateY(0); }
+
+        @keyframes softAppear {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .button-group { display: flex; gap: 15px; justify-content: center; margin-top: 2rem; flex-wrap: wrap; }
+
+        .btn {
+            display: inline-block; padding: 12px 45px; text-decoration: none; border-radius: 4px; 
+            font-weight: 700; transition: 0.3s ease; text-transform: uppercase;
+            letter-spacing: 1px; font-size: 0.85rem;
+        }
+
+        .btn-dark { background-color: var(--text-dark); color: white; }
+        .btn-outline { border: 2px solid var(--text-dark); color: var(--text-dark); }
+
+        .btn:hover { transform: translateY(-3px); background-color: var(--primary-lilac); color: black; border-color: var(--primary-lilac); }
+
+        footer { text-align: center; padding: 60px 20px; border-top: 1px solid #000000; font-size: 1rem; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#expertise">Focus</a></li>
+            <li><a href="#contact">Connect</a></li>
+        </ul>
+    </nav>
+
+    <header id="home">
+        <div class="profile-container">
+            <img src="assets/profilepic.jpeg" alt="Victoria Chen">
+        </div>
+        <h1>Victoria Chen</h1>
+        <div class="status-line">
+            <span>Class of 2028</span>
+            <span>|</span>
+            <span>CPA Eligible</span>
+        </div>
+        <p class="tagline">A focus on precision, a heart for creativity, and a love for learning and growth.</p>
+    </header>
+
+    <section id="about">
+        <h2>About Me</h2>
+        <p>I am currently pursuing my B.S in Accounting at Rutgers Business School, New Brunswick. I am a dedicated learner, committed to professional excellence through a methodical and reliable work ethic. I've built a strong foundation in financial statement analysis and excel-based budgeting models. Outside of the classroom, I explore my creative side through arts, crafts, and personal styling.</p>
+    </section>
+
+    <section id="skills">
+        <h2>Technical Toolkit</h2>
+        <div class="skills-container">
+            <div class="skill-category">
+                <h4>Software</h4>
+                <p>Microsoft 365 (Advanced Excel), Google Workspace, QuickBooks Online, POS Systems.</p>
+            </div>
+            <div class="skill-category">
+                <h4>Communication</h4>
+                <p>Mandarin Chinese (Intermediate Proficiency), Professional Business Writing, Conflict Resolution.</p>
+            </div>
+            <div class="skill-category">
+                <h4>Core Accounting</h4>
+                <p>GAAP Compliance, Financial Statement Analysis, Trial Balances, Adaptive Leadership.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="expertise">
+        <h2>Professional Focus</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Analysis & Reporting</h3>
+                <div class="card-initial-text"><p>Deep understanding of financial structures and GAAP standards.</p></div>
+                <div class="card-hover-detail">
+                    <ul>
+                        <li>Balanced monthly trial balances and prepared 25+ adjusting journal entries.</li>
+                        <li>Constructed Income Statements and Balance Sheets using GAAP standards.</li>
+                        <li>Identified and corrected 15+ accounting errors to ensure reporting accuracy.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Adaptive Leadership</h3>
+                <div class="card-initial-text"><p>Calm, methodical problem-solving in fast-paced environments.</p></div>
+                <div class="card-hover-detail">
+                    <ul>
+                        <li>Managed operations and customer flow for 45+ guests per shift.</li>
+                        <li>Resolved 2-5 customer concerns daily with high guest satisfaction.</li>
+                        <li>Handled high-volume transactions ($150+/day in tips) with precision.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Continuous Learning</h3>
+                <div class="card-initial-text"><p>Expanding technical toolkits and exploring new perspectives.</p></div>
+                <div class="card-hover-detail">
+                    <ul>
+                        <li>Completed Property Tax Consulting simulation for hotel client portfolios.</li>
+                        <li>Developed income capitalization valuations for hospitality portfolios.</li>
+                        <li>Consistently exploring financial modeling and tax liability structures.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="centered-heading" style="text-align: center;">
+        <h2>Let's Connect</h2>
+        <p style="font-size: 1.3rem; font-style: italic; margin-bottom: 10px;">I am always open to new opportunities, ideas, and growth!</p>
+        <p>I would love to hear from you—whether it's about a project or just to say hello.</p>
+        <div class="button-group">
+            <a href="Victoria_Chen_Resume.pdf" download class="btn btn-dark">Resume</a>
+            <a href="mailto:vc525@scarletmail.rutgers.edu" class="btn btn-outline">Email</a>
+            <a href="https://www.linkedin.com/in/chenvictoria05/" target="_blank" class="btn btn-outline">LinkedIn</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Victoria Chen. Built with passion.</p>
+    </footer>
+
+    <script>
+        const revealSections = document.querySelectorAll('section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('reveal');
+            });
+        }, { threshold: 0.1 });
+        revealSections.forEach(section => observer.observe(section));
+    </script>
+</body>
+</html>
