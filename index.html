@@ -107,7 +107,8 @@
             background: var(--primary-lilac); margin-top: 10px;
         }
 
-        .centered-heading h2::after { margin: 10px auto 0 auto; }
+        /* Centered Accent Rule */
+        .centered-accent h2::after { margin: 10px auto 0 auto; }
 
         /* --- SKILLS SECTION --- */
         .skills-container {
@@ -175,6 +176,103 @@
         .card:hover .card-initial-text { opacity: 0; transform: translateY(-10px); }
         .card:hover .card-hover-detail { opacity: 1; transform: translateY(0); }
 
+        /* --- LAB LAYOUT & PROGRESS --- */
+        .lab-layout {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 25px;
+            margin-top: 2rem;
+            position: relative;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #eee;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            height: 20px;
+            overflow: hidden;
+            border: 1px solid #000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: var(--primary-lilac);
+            transition: width 0.4s ease;
+        }
+
+        .lab-main {
+            background: white;
+            padding: 30px;
+            border: 1px solid #000;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        #win-screen {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--primary-lilac);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            text-align: center;
+            border-radius: 12px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* --- SMART SPREADSHEET / CALCULATOR --- */
+        .smart-tool {
+            background: #f1f3f4;
+            padding: 20px;
+            border: 1px solid #bdc3c7;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .calc-screen {
+            background: white;
+            border: 1px solid #000;
+            padding: 10px;
+            text-align: right;
+            font-family: monospace;
+            font-size: 1.2rem;
+            min-height: 45px;
+        }
+
+        .calc-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+        }
+
+        .calc-btn {
+            padding: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            background: white;
+        }
+
+        .calc-btn:hover { background: var(--primary-lilac); }
+
+        .scratchpad {
+            width: 100%;
+            height: 120px;
+            padding: 10px;
+            border: 1px solid #000;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            resize: none;
+        }
+
         @keyframes softAppear {
             from { opacity: 0; transform: scale(0.9) translateY(20px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
@@ -185,11 +283,11 @@
         .btn {
             display: inline-block; padding: 12px 45px; text-decoration: none; border-radius: 4px; 
             font-weight: 700; transition: 0.3s ease; text-transform: uppercase;
-            letter-spacing: 1px; font-size: 0.85rem;
+            letter-spacing: 1px; font-size: 0.85rem; cursor: pointer;
         }
 
-        .btn-dark { background-color: var(--text-dark); color: white; }
-        .btn-outline { border: 2px solid var(--text-dark); color: var(--text-dark); }
+        .btn-dark { background-color: var(--text-dark); color: white; border: none; }
+        .btn-outline { border: 2px solid var(--text-dark); color: var(--text-dark); background: transparent; }
 
         .btn:hover { transform: translateY(-3px); background-color: var(--primary-lilac); color: black; border-color: var(--primary-lilac); }
 
@@ -203,7 +301,7 @@
             <li><a href="#home">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#skills">Skills</a></li>
-            <li><a href="#expertise">Focus</a></li>
+            <li><a href="#lab">Accounting Lab</a></li>
             <li><a href="#contact">Connect</a></li>
         </ul>
     </nav>
@@ -283,7 +381,76 @@
         </div>
     </section>
 
-    <section id="contact" class="centered-heading" style="text-align: center;">
+    <section id="lab">
+        <h2>Accounting Knowledge Lab</h2>
+        <div style="background: var(--accent-pink); padding: 15px; border-radius: 8px; margin-bottom: 25px; font-size: 0.85rem; border-left: 5px solid var(--primary-lilac);">
+            <b>Class Assignment Note:</b> This app demonstrates the integration of <b>AI and Data Knowledge</b>. I used AI-assisted programming to architect the logic bank and gamified progression system, bridging GAAP principles with functional web software.
+        </div>
+
+        <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 5px;">
+            <span id="level-indicator">Level: Beginner</span>
+            <span id="score-text">Score: 0 / 10</span>
+        </div>
+        <div class="progress-container">
+            <div id="p-bar" class="progress-bar"></div>
+        </div>
+
+        <div class="lab-layout">
+            <div class="lab-main">
+                <div id="win-screen">
+                    <h2 style="border:none;">YOU WIN!</h2>
+                    <p style="font-size: 1.2rem; margin-bottom: 20px;">Your GAAP logic is superior. Leveling Up...</p>
+                    <button onclick="nextLevel()" class="btn btn-dark">Start Next Level</button>
+                </div>
+
+                <span id="cat-label" style="font-weight: 700; color: #666; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Category: Fundamentals</span>
+                <div id="problem-text" style="font-size: 1.25rem; margin: 20px 0; min-height: 100px; line-height: 1.5;">
+                    Click "Generate New Challenge" to begin.
+                </div>
+                
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <input type="number" id="answer-input" placeholder="Enter Final Answer" style="padding: 12px; border: 1px solid #000; flex: 1; font-family: serif;">
+                    <button onclick="checkAnswer()" class="btn btn-dark" style="padding: 12px 25px;">Submit</button>
+                </div>
+                <p id="feedback" style="font-weight: 700; min-height: 24px; font-size: 1.1rem;"></p>
+                
+                <button onclick="generateProblem()" class="btn btn-outline" style="width: 100%; margin-top: 15px;">Generate New Challenge</button>
+            </div>
+
+            <div class="smart-tool">
+                <div style="font-weight: 700; text-align: center; border-bottom: 1px solid #ccc; padding-bottom: 5px; font-size: 0.8rem; text-transform: uppercase;">Worksheet & Calculator</div>
+                
+                <div class="calc-screen" id="calc-display">0</div>
+                <div class="calc-grid">
+                    <button class="calc-btn" onclick="pressCalc('7')">7</button>
+                    <button class="calc-btn" onclick="pressCalc('8')">8</button>
+                    <button class="calc-btn" onclick="pressCalc('9')">9</button>
+                    <button class="calc-btn" onclick="pressCalc('/')" style="background:#eaddff">/</button>
+                    
+                    <button class="calc-btn" onclick="pressCalc('4')">4</button>
+                    <button class="calc-btn" onclick="pressCalc('5')">5</button>
+                    <button class="calc-btn" onclick="pressCalc('6')">6</button>
+                    <button class="calc-btn" onclick="pressCalc('*')" style="background:#eaddff">*</button>
+                    
+                    <button class="calc-btn" onclick="pressCalc('1')">1</button>
+                    <button class="calc-btn" onclick="pressCalc('2')">2</button>
+                    <button class="calc-btn" onclick="pressCalc('3')">3</button>
+                    <button class="calc-btn" onclick="pressCalc('-')" style="background:#eaddff">-</button>
+                    
+                    <button class="calc-btn" onclick="pressCalc('0')">0</button>
+                    <button class="calc-btn" onclick="pressCalc('.')">.</button>
+                    <button class="calc-btn" onclick="clearCalc()" style="color:red">C</button>
+                    <button class="calc-btn" onclick="pressCalc('+')" style="background:#eaddff">+</button>
+                </div>
+                <button class="btn btn-dark" onclick="evalCalc()" style="width: 100%; padding: 8px; font-size: 0.7rem;">Calculate Result</button>
+                
+                <div style="font-weight: 700; font-size: 0.75rem; margin-top: 5px;">Scratchpad (T-Accounts/Notes):</div>
+                <textarea class="scratchpad" placeholder="Work out your entries here..."></textarea>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="centered-accent" style="text-align: center;">
         <h2>Let's Connect</h2>
         <p style="font-size: 1.3rem; font-style: italic; margin-bottom: 10px;">I am always open to new opportunities, ideas, and growth!</p>
         <p>I would love to hear from you—whether it's about a project or just to say hello.</p>
@@ -299,13 +466,83 @@
     </footer>
 
     <script>
-        const revealSections = document.querySelectorAll('section');
+        // Scroll Reveal Logic
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('reveal');
-            });
+            entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('reveal'); });
         }, { threshold: 0.1 });
-        revealSections.forEach(section => observer.observe(section));
+        document.querySelectorAll('section').forEach(s => observer.observe(s));
+
+        // Calculator Logic
+        let calcStr = "";
+        function pressCalc(v) { calcStr += v; document.getElementById('calc-display').innerText = calcStr; }
+        function clearCalc() { calcStr = ""; document.getElementById('calc-display').innerText = "0"; }
+        function evalCalc() {
+            try { calcStr = eval(calcStr).toString(); document.getElementById('calc-display').innerText = calcStr; }
+            catch(e) { document.getElementById('calc-display').innerText = "Error"; calcStr = ""; }
+        }
+
+        // --- PROGRESS & SCORING ---
+        let score = 0;
+        let currentLevel = 0;
+        let currentAns = 0;
+
+        function updateScore(points) {
+            score += points;
+            if (score < 0) score = 0;
+            if (score >= 10) {
+                document.getElementById('win-screen').style.display = "flex";
+                score = 10;
+            }
+            document.getElementById('score-text').innerText = `Score: ${score} / 10`;
+            document.getElementById('p-bar').style.width = (score * 10) + "%";
+        }
+
+        function nextLevel() {
+            currentLevel++;
+            score = 0;
+            document.getElementById('win-screen').style.display = "none";
+            document.getElementById('score-text').innerText = "Score: 0 / 10";
+            document.getElementById('p-bar').style.width = "0%";
+            document.getElementById('level-indicator').innerText = currentLevel === 1 ? "Level: Intermediate" : "Level: Advanced";
+            generateProblem();
+        }
+
+        const level0Problems = [
+            { cat: "Equation", q: (a,b) => `Assets are <b>$${(a+b).toLocaleString()}</b>. Equity is <b>$${b.toLocaleString()}</b>. Find Liabilities.`, ans: (a,b) => a },
+            { cat: "Depreciation", q: (a,b) => `Asset: $${(a*10).toLocaleString()}. Salvage: $${a.toLocaleString()}. Life: 9 years. Find Annual Depreciation.`, ans: (a,b) => a }
+        ];
+
+        const level1Problems = [
+            { cat: "Inventory", q: (a,b) => `Beg. Inv: $${a.toLocaleString()}. Purchases: $${b.toLocaleString()}. Ending Inv: $500. Find COGS.`, ans: (a,b) => a+b-500 },
+            { cat: "Net Income", q: (a,b) => `Revenue: $${(a*1.5).toLocaleString()}. Expenses: $${a.toLocaleString()}. What is the Net Income?`, ans: (a,b) => a * 0.5 }
+        ];
+
+        function generateProblem() {
+            const bank = currentLevel === 0 ? level0Problems : level1Problems;
+            const p = bank[Math.floor(Math.random() * bank.length)];
+            const valA = (Math.floor(Math.random() * 50) + 10) * 100;
+            const valB = (Math.floor(Math.random() * 30) + 5) * 100;
+            
+            document.getElementById('cat-label').innerText = "Category: " + p.cat;
+            document.getElementById('problem-text').innerHTML = p.q(valA, valB);
+            document.getElementById('feedback').innerText = "";
+            document.getElementById('answer-input').value = "";
+            currentAns = p.ans(valA, valB);
+        }
+
+        function checkAnswer() {
+            const userVal = parseFloat(document.getElementById('answer-input').value);
+            const feedback = document.getElementById('feedback');
+            if (userVal === currentAns) {
+                feedback.style.color = "green";
+                feedback.innerText = "✓ Correct! +1 Point";
+                updateScore(1);
+            } else {
+                feedback.style.color = "red";
+                feedback.innerText = `✗ Wrong. -2 Points. Correct: ${currentAns.toLocaleString()}`;
+                updateScore(-2);
+            }
+        }
     </script>
 </body>
 </html>
