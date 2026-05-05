@@ -172,7 +172,6 @@
         .card-hover-detail ul { list-style-type: square; padding-left: 15px; }
         .card-hover-detail li { margin-bottom: 8px; }
 
-        /* Updated for Mobile + Laptop compatibility */
         .card:hover, .card:focus, .card:active { box-shadow: 0 15px 40px rgba(0,0,0,0.1); border-color: var(--primary-lilac); outline: none; }
         .card:hover .card-initial-text, .card:focus .card-initial-text, .card:active .card-initial-text { opacity: 0; transform: translateY(-10px); }
         .card:hover .card-hover-detail, .card:focus .card-hover-detail, .card:active .card-hover-detail { opacity: 1; transform: translateY(0); }
@@ -239,8 +238,14 @@
             resize: none;
         }
 
+        /* STACKING FIX FOR MOBILE DEVICES */
         @media (max-width: 900px) {
-            .lab-layout { grid-template-columns: 1fr; }
+            .lab-layout { 
+                grid-template-columns: 1fr; /* This makes the columns stack on top of each other */
+            }
+            .smart-tool {
+                margin-top: 10px; /* Adds space when they stack */
+            }
         }
 
         @keyframes softAppear {
