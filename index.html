@@ -107,8 +107,7 @@
             background: var(--primary-lilac); margin-top: 10px;
         }
 
-        /* Centered Accent Rule */
-        .centered-accent h2::after { margin: 10px auto 0 auto; }
+        .centered-heading h2::after { margin: 10px auto 0 auto; }
 
         /* --- SKILLS SECTION --- */
         .skills-container {
@@ -154,6 +153,7 @@
             background: white; padding: 2rem 1.5rem; border-radius: 12px;
             border: 1px solid #000000; position: relative; overflow: hidden;
             height: 310px; display: flex; flex-direction: column; transition: var(--transition-smooth);
+            cursor: pointer;
         }
 
         .card h3 { font-size: 1.3rem; margin-bottom: 15px; flex-shrink: 0; }
@@ -172,34 +172,17 @@
         .card-hover-detail ul { list-style-type: square; padding-left: 15px; }
         .card-hover-detail li { margin-bottom: 8px; }
 
-        .card:hover { box-shadow: 0 15px 40px rgba(0,0,0,0.1); border-color: var(--primary-lilac); }
-        .card:hover .card-initial-text { opacity: 0; transform: translateY(-10px); }
-        .card:hover .card-hover-detail { opacity: 1; transform: translateY(0); }
+        /* Updated for Mobile + Laptop compatibility */
+        .card:hover, .card:focus, .card:active { box-shadow: 0 15px 40px rgba(0,0,0,0.1); border-color: var(--primary-lilac); outline: none; }
+        .card:hover .card-initial-text, .card:focus .card-initial-text, .card:active .card-initial-text { opacity: 0; transform: translateY(-10px); }
+        .card:hover .card-hover-detail, .card:focus .card-hover-detail, .card:active .card-hover-detail { opacity: 1; transform: translateY(0); }
 
-        /* --- LAB LAYOUT & PROGRESS --- */
+        /* --- LAB LAYOUT --- */
         .lab-layout {
             display: grid;
             grid-template-columns: 1fr 350px;
             gap: 25px;
             margin-top: 2rem;
-            position: relative;
-        }
-
-        .progress-container {
-            width: 100%;
-            background-color: #eee;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            height: 20px;
-            overflow: hidden;
-            border: 1px solid #000;
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background-color: var(--primary-lilac);
-            transition: width 0.4s ease;
         }
 
         .lab-main {
@@ -207,24 +190,7 @@
             padding: 30px;
             border: 1px solid #000;
             border-radius: 12px;
-            position: relative;
         }
-
-        #win-screen {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--primary-lilac);
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-            text-align: center;
-            border-radius: 12px;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         /* --- SMART SPREADSHEET / CALCULATOR --- */
         .smart-tool {
@@ -271,6 +237,10 @@
             font-family: 'Courier New', Courier, monospace;
             font-size: 0.85rem;
             resize: none;
+        }
+
+        @media (max-width: 900px) {
+            .lab-layout { grid-template-columns: 1fr; }
         }
 
         @keyframes softAppear {
@@ -345,7 +315,7 @@
     <section id="expertise">
         <h2>Professional Focus</h2>
         <div class="grid">
-            <div class="card">
+            <div class="card" tabindex="0">
                 <h3>Analysis & Reporting</h3>
                 <div class="card-initial-text"><p>Deep understanding of financial structures and GAAP standards.</p></div>
                 <div class="card-hover-detail">
@@ -356,7 +326,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="card">
+            <div class="card" tabindex="0">
                 <h3>Adaptive Leadership</h3>
                 <div class="card-initial-text"><p>Calm, methodical problem-solving in fast-paced environments.</p></div>
                 <div class="card-hover-detail">
@@ -367,7 +337,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="card">
+            <div class="card" tabindex="0">
                 <h3>Continuous Learning</h3>
                 <div class="card-initial-text"><p>Expanding technical toolkits and exploring new perspectives.</p></div>
                 <div class="card-hover-detail">
@@ -384,28 +354,14 @@
     <section id="lab">
         <h2>Accounting Knowledge Lab</h2>
         <div style="background: var(--accent-pink); padding: 15px; border-radius: 8px; margin-bottom: 25px; font-size: 0.85rem; border-left: 5px solid var(--primary-lilac);">
-            <b>Class Assignment Note:</b> This app demonstrates the integration of <b>AI and Data Knowledge</b>. I used AI-assisted programming to architect the logic bank and gamified progression system, bridging GAAP principles with functional web software.
-        </div>
-
-        <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 5px;">
-            <span id="level-indicator">Level: Beginner</span>
-            <span id="score-text">Score: 0 / 10</span>
-        </div>
-        <div class="progress-container">
-            <div id="p-bar" class="progress-bar"></div>
+            <b>Class Assignment Note:</b> This app demonstrates the integration of <b>AI and Data Knowledge</b>. I used AI-assisted programming to architect the logic bank, bridging GAAP principles with functional web software.
         </div>
 
         <div class="lab-layout">
             <div class="lab-main">
-                <div id="win-screen">
-                    <h2 style="border:none;">YOU WIN!</h2>
-                    <p style="font-size: 1.2rem; margin-bottom: 20px;">Your GAAP logic is superior. Leveling Up...</p>
-                    <button onclick="nextLevel()" class="btn btn-dark">Start Next Level</button>
-                </div>
-
                 <span id="cat-label" style="font-weight: 700; color: #666; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Category: Fundamentals</span>
                 <div id="problem-text" style="font-size: 1.25rem; margin: 20px 0; min-height: 100px; line-height: 1.5;">
-                    Click "Generate New Challenge" to begin.
+                    Click "Generate New Challenge" to begin your practice session.
                 </div>
                 
                 <div style="display: flex; gap: 10px; margin-bottom: 15px;">
@@ -450,7 +406,7 @@
         </div>
     </section>
 
-    <section id="contact" class="centered-accent" style="text-align: center;">
+    <section id="contact" style="text-align: center;">
         <h2>Let's Connect</h2>
         <p style="font-size: 1.3rem; font-style: italic; margin-bottom: 10px;">I am always open to new opportunities, ideas, and growth!</p>
         <p>I would love to hear from you—whether it's about a project or just to say hello.</p>
@@ -481,45 +437,17 @@
             catch(e) { document.getElementById('calc-display').innerText = "Error"; calcStr = ""; }
         }
 
-        // --- PROGRESS & SCORING ---
-        let score = 0;
-        let currentLevel = 0;
+        // Lab Problem Bank Logic
         let currentAns = 0;
-
-        function updateScore(points) {
-            score += points;
-            if (score < 0) score = 0;
-            if (score >= 10) {
-                document.getElementById('win-screen').style.display = "flex";
-                score = 10;
-            }
-            document.getElementById('score-text').innerText = `Score: ${score} / 10`;
-            document.getElementById('p-bar').style.width = (score * 10) + "%";
-        }
-
-        function nextLevel() {
-            currentLevel++;
-            score = 0;
-            document.getElementById('win-screen').style.display = "none";
-            document.getElementById('score-text').innerText = "Score: 0 / 10";
-            document.getElementById('p-bar').style.width = "0%";
-            document.getElementById('level-indicator').innerText = currentLevel === 1 ? "Level: Intermediate" : "Level: Advanced";
-            generateProblem();
-        }
-
-        const level0Problems = [
-            { cat: "Equation", q: (a,b) => `Assets are <b>$${(a+b).toLocaleString()}</b>. Equity is <b>$${b.toLocaleString()}</b>. Find Liabilities.`, ans: (a,b) => a },
-            { cat: "Depreciation", q: (a,b) => `Asset: $${(a*10).toLocaleString()}. Salvage: $${a.toLocaleString()}. Life: 9 years. Find Annual Depreciation.`, ans: (a,b) => a }
-        ];
-
-        const level1Problems = [
-            { cat: "Inventory", q: (a,b) => `Beg. Inv: $${a.toLocaleString()}. Purchases: $${b.toLocaleString()}. Ending Inv: $500. Find COGS.`, ans: (a,b) => a+b-500 },
-            { cat: "Net Income", q: (a,b) => `Revenue: $${(a*1.5).toLocaleString()}. Expenses: $${a.toLocaleString()}. What is the Net Income?`, ans: (a,b) => a * 0.5 }
+        const problemBank = [
+            { cat: "Equation", q: (a,b) => `A firm has Total Assets of <b>$${(a+b).toLocaleString()}</b> and Owner's Equity of <b>$${b.toLocaleString()}</b>. What are the Total Liabilities?`, ans: (a,b) => a },
+            { cat: "Depreciation", q: (a,b) => `An asset costs <b>$${(a*10).toLocaleString()}</b> with a salvage value of <b>$${a.toLocaleString()}</b>. If the useful life is 9 years, what is the annual straight-line depreciation expense?`, ans: (a,b) => a },
+            { cat: "Inventory (COGS)", q: (a,b) => `Beginning Inventory was <b>$${a.toLocaleString()}</b>. Purchases during the period were <b>$${b.toLocaleString()}</b>. If Ending Inventory is $500, calculate the <b>Cost of Goods Sold</b>.`, ans: (a,b) => a+b-500 },
+            { cat: "Net Income", q: (a,b) => `Total Revenue is <b>$${(a+500).toLocaleString()}</b> and Operating Expenses are <b>$${a.toLocaleString()}</b>. If the tax rate is 0%, what is the Net Income?`, ans: (a,b) => 500 }
         ];
 
         function generateProblem() {
-            const bank = currentLevel === 0 ? level0Problems : level1Problems;
-            const p = bank[Math.floor(Math.random() * bank.length)];
+            const p = problemBank[Math.floor(Math.random() * problemBank.length)];
             const valA = (Math.floor(Math.random() * 50) + 10) * 100;
             const valB = (Math.floor(Math.random() * 30) + 5) * 100;
             
@@ -535,12 +463,10 @@
             const feedback = document.getElementById('feedback');
             if (userVal === currentAns) {
                 feedback.style.color = "green";
-                feedback.innerText = "✓ Correct! +1 Point";
-                updateScore(1);
+                feedback.innerText = "✓ Correct! Your calculations are accurate.";
             } else {
                 feedback.style.color = "red";
-                feedback.innerText = `✗ Wrong. -2 Points. Correct: ${currentAns.toLocaleString()}`;
-                updateScore(-2);
+                feedback.innerText = `✗ Not quite. The correct answer was ${currentAns.toLocaleString()}.`;
             }
         }
     </script>
